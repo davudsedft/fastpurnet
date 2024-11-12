@@ -4,14 +4,21 @@ import { connect } from 'cloudflare:sockets';
 
 // Generate your own UUID using the following command in PowerShell:
 // Powershell -NoExit -Command "[guid]::NewGuid()"
-let userID = '2928d83a-ca75-4d52-b437-fa78c7601378';
+let userID = '36a47ac5-1f9d-4c4d-954f-4ae94385a48c';
 
 // Proxy IPs to choose from
 let proxyIPs = [
-	'cdn.xn--b6gac.eu.org',
-	'cdn-all.xn--b6gac.eu.org',
-	'workers.cloudflare.cyou'
+    '145.239.85.58:9300', // Poland
+    '82.196.11.105:1080', // Netherlands
+    '145.239.85.58:9300', // Poland
+    '82.196.11.105:1080', // Netherlands
+    '145.239.85.58:9300', // Poland
+    '82.196.11.105:1080', // Netherlands
 ];
+
+
+
+
 // Randomly select a proxy IP from the list
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 let proxyPort = 443;
@@ -24,11 +31,11 @@ let parsedSocks5 = {};
 
 // https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
 // DNS-over-HTTPS URL
-let dohURL = 'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg=';
+let dohURL = 'https://cloudflare-dns.com/dns-query';
 
 // Preferred address API interface
 let ipUrlTxt = [
-	'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv4.txt',
+	'https://raw.githubusercontent.com/davudsedft/fastpurnet/refs/heads/main/ipv4.txt',
 	// 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv6.txt'
 ];
 let ipUrlCsv = [
@@ -485,7 +492,7 @@ async function getIpUrlTxt(ipUrlTxts) {
 			method: 'GET',
 			headers: {
 				'Accept': 'text/html,application/xhtml+xml,application/xml;',
-				'User-Agent': 'amclubs/am-cf-tunnel'
+				'User-Agent': 'purnet/fastpurnet'
 			},
 			signal: controller.signal // Attach the AbortController's signal to the fetch request to allow cancellation when needed
 		}).then(response => response.ok ? response.text() : Promise.reject())));
