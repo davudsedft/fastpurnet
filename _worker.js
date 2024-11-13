@@ -35,11 +35,54 @@ let ipUrlCsv = [
 	// 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv4.csv'
 ];
 // Preferred addresses with optional TLS subscription
+
+
+
+
 let ipLocal = [
-	'visa.cn:443#youtube.com/@purnet ',
-	'icook.hk#t.me/purnet ',
-	'time.is:443#github.com/davudsedft '
+    'visa.cn:443#youtube.com/@purnet',            // China
+    'icook.hk:443#t.me/purnet',                   // Hong Kong
+    'time.is:443#github.com/davudsedft',          // Iceland
+    'google.com.au:443#example.com',              // Australia
+    'bbc.co.uk:443#example.com',                  // United Kingdom
+    'cbc.ca:443#example.com',                     // Canada
+    'france24.com:443#example.com',               // France
+    'spiegel.de:443#example.com',                 // Germany
+    'rai.it:443#example.com',                     // Italy
+    'elpais.com:443#example.com',                 // Spain
+    'timesofindia.com:443#example.com',           // India
+    'yomiuri.co.jp:443#example.com',              // Japan
+    'globo.com:443#example.com',                  // Brazil
+    'abc.net.au:443#example.com',                 // Australia
+    'news24.com:443#example.com',                 // South Africa
+    'theguardian.com:443#example.com',            // United Kingdom
+    'reuters.com:443#example.com',                // United States
+    'smh.com.au:443#example.com',                 // Australia
+    'vnexpress.net:443#example.com',              // Vietnam
+    'lefigaro.fr:443#example.com',                // France
+    'ansa.it:443#example.com',                    // Italy
+    'rt.com:443#example.com',                     // Russia
+    'dw.com:443#example.com',                     // Germany
+    'news.com.au:443#example.com',                // Australia
+    'zeit.de:443#example.com',                    // Germany
+    'lemonde.fr:443#example.com',                 // France
+    'nytimes.com:443#example.com',                // United States
+    'bbc.com:443#example.com',                    // United Kingdom
+    'foxnews.com:443#example.com',                // United States
+    'indiatoday.in:443#example.com',              // India
+    'rtve.es:443#example.com',                    // Spain
+    'repubblica.it:443#example.com',              // Italy
+    'leparisien.fr:443#example.com',              // France
+    'sapo.pt:443#example.com',                    // Portugal
+    'elpais.com:443#example.com',                 // Spain
+    'japantimes.co.jp:443#example.com',           // Japan
+    'smh.com.au:443#example.com',                 // Australia
+    'delfi.lt:443#example.com',                   // Lithuania
+    'bbc.co.uk:443#example.com',                  // United Kingdom
+    'timesofisrael.com:443#example.com'           // Israel
 ];
+
+
 let noTLS = 'false';
 let sl = 5;
 
