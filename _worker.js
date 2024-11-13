@@ -24,11 +24,11 @@ let parsedSocks5 = {};
 
 // https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
 // DNS-over-HTTPS URL
-let dohURL = 'https://sky.rethinkdns.com/1:-P8BOADgBAB_A_______3___2N3-8zEAa3oA2A==';
+let dohURL = 'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg=';
 
 // Preferred address API interface
 let ipUrlTxt = [
-	'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv4.txt',
+	'hhttps://raw.githubusercontent.com/davudsedft/fastpurnet/refs/heads/main/ipv4.txt',
 	// 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv6.txt'
 ];
 let ipUrlCsv = [
