@@ -41,10 +41,28 @@ let ipUrlCsv = [
 ];
 // Preferred addresses with optional TLS subscription
 let ipLocal = [
-	'visa.cn:443#youtube.com/@purnet ',
-	'icook.hk#t.me/AM_CLUBS purnet',
-	'time.is:443#github.com/davudsedft '
+    'bbc.com:443#youtube.com/@purnet',
+    'cctv.com#t.me/AM_CLUBS purnet',
+    'aljazeera.com:443#github.com/davudsedft',
+    'reuters.com#t.me/AM_CLUBS news',
+    'france24.com:443#youtube.com/@purnet',
+    'ndtv.com#github.com/davudsedft',
+    'cnn.com#t.me/AM_CLUBS updates',
+    'rt.com:443#youtube.com/@purnet',
+    'foxnews.com#github.com/davudsedft',
+    'dw.com:443#t.me/AM_CLUBS info',
+    'nytimes.com#youtube.com/@purnet',
+    'lemonde.fr#github.com/davudsedft',
+    'abc.net.au#t.me/AM_CLUBS reports',
+    'cbc.ca:443#youtube.com/@purnet',
+    'tvn24.pl#github.com/davudsedft',
+    'bloomberg.com#t.me/AM_CLUBS finance',
+    'theguardian.com:443#youtube.com/@purnet',
+    'japantimes.co.jp#github.com/davudsedft',
+    'news.com.au#t.me/AM_CLUBS australia',
+    'stratfor.com#youtube.com/@purnet'
 ];
+
 let noTLS = 'false';
 let sl = 5;
 
