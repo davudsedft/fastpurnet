@@ -1,5 +1,10 @@
+/**
+ * YouTube Channel: https://youtube.com/@purnet
+ * GitHub Repository: https://github.com/davudsedft
+ * Telegram Group: https://t.me/purnet
+ */
 
-
+// @ts-ignore
 import { connect } from 'cloudflare:sockets';
 
 // Generate your own UUID using the following command in PowerShell:
@@ -8,13 +13,13 @@ let userID = '2928d83a-ca75-4d52-b437-fa78c7601378';
 
 // Proxy IPs to choose from
 let proxyIPs = [
-	'cdn.xn--b6gac.eu.org',
-	'cdn-all.xn--b6gac.eu.org',
-	'workers.cloudflare.cyou'
+	'proxyip.amclubs.camdvr.org',
+	'proxyip.amclubs.kozow.com'
 ];
 // Randomly select a proxy IP from the list
 let proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
 let proxyPort = 443;
+let proxyIpTxt = 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/proxyip.txt';
 
 // Setting the socks5 will ignore proxyIP
 // Example:  user:pass@host:port  or  host:port
@@ -24,65 +29,22 @@ let parsedSocks5 = {};
 
 // https://cloudflare-dns.com/dns-query or https://dns.google/dns-query
 // DNS-over-HTTPS URL
-let dohURL = 'https://sky.rethinkdns.com/1:-Pf_____9_8A_AMAIgE8kMABVDDmKOHTAKg=';
+let dohURL = 'https://sky.rethinkdns.com/1:GMgBAADgAEIhEACA';
 
 // Preferred address API interface
 let ipUrlTxt = [
-	'hhttps://raw.githubusercontent.com/davudsedft/fastpurnet/refs/heads/main/ipv4.txt',
+	'https://raw.githubusercontent.com/davudsedft/fastpurnet/refs/heads/main/ipv4.txt',
 	// 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv6.txt'
 ];
 let ipUrlCsv = [
 	// 'https://raw.githubusercontent.com/amclubs/am-cf-tunnel/main/ipv4.csv'
 ];
 // Preferred addresses with optional TLS subscription
-
-
-
-
 let ipLocal = [
-    'visa.cn:443#youtube.com/@purnet',            // China
-    'icook.hk:443#t.me/purnet',                   // Hong Kong
-    'time.is:443#github.com/davudsedft',          // Iceland
-    'google.com.au:443#example.com',              // Australia
-    'bbc.co.uk:443#example.com',                  // United Kingdom
-    'cbc.ca:443#example.com',                     // Canada
-    'france24.com:443#example.com',               // France
-    'spiegel.de:443#example.com',                 // Germany
-    'rai.it:443#example.com',                     // Italy
-    'elpais.com:443#example.com',                 // Spain
-    'timesofindia.com:443#example.com',           // India
-    'yomiuri.co.jp:443#example.com',              // Japan
-    'globo.com:443#example.com',                  // Brazil
-    'abc.net.au:443#example.com',                 // Australia
-    'news24.com:443#example.com',                 // South Africa
-    'theguardian.com:443#example.com',            // United Kingdom
-    'reuters.com:443#example.com',                // United States
-    'smh.com.au:443#example.com',                 // Australia
-    'vnexpress.net:443#example.com',              // Vietnam
-    'lefigaro.fr:443#example.com',                // France
-    'ansa.it:443#example.com',                    // Italy
-    'rt.com:443#example.com',                     // Russia
-    'dw.com:443#example.com',                     // Germany
-    'news.com.au:443#example.com',                // Australia
-    'zeit.de:443#example.com',                    // Germany
-    'lemonde.fr:443#example.com',                 // France
-    'nytimes.com:443#example.com',                // United States
-    'bbc.com:443#example.com',                    // United Kingdom
-    'foxnews.com:443#example.com',                // United States
-    'indiatoday.in:443#example.com',              // India
-    'rtve.es:443#example.com',                    // Spain
-    'repubblica.it:443#example.com',              // Italy
-    'leparisien.fr:443#example.com',              // France
-    'sapo.pt:443#example.com',                    // Portugal
-    'elpais.com:443#example.com',                 // Spain
-    'japantimes.co.jp:443#example.com',           // Japan
-    'smh.com.au:443#example.com',                 // Australia
-    'delfi.lt:443#example.com',                   // Lithuania
-    'bbc.co.uk:443#example.com',                  // United Kingdom
-    'timesofisrael.com:443#example.com'           // Israel
+	'visa.cn:443#youtube.com/@purnet ',
+	'icook.hk#t.me/AM_CLUBS purnet',
+	'time.is:443#github.com/davudsedft '
 ];
-
-
 let noTLS = 'false';
 let sl = 5;
 
@@ -110,6 +72,7 @@ let isBase64 = true;
 let botToken = '';
 let chatID = '';
 
+const httpPattern = /^http(s)?:\/\/.+/;
 
 if (!isValidUUID(userID)) {
 	throw new Error('uuid is invalid');
@@ -148,12 +111,31 @@ export default {
 
 			userID = (UUID || userID).toLowerCase();
 			if (PROXYIP) {
-				proxyIPs = await addIpText(PROXYIP);
-				proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
-				const [ip, port] = proxyIP.split(':');
-				proxyIP = ip;
-				proxyPort = port || proxyPort;
+				if (httpPattern.test(PROXYIP)) {
+					let proxyIpTxt = await addIpText(PROXYIP);
+					let ipUrlTxtAndCsv;
+					if (PROXYIP.endsWith('.csv')) {
+						ipUrlTxtAndCsv = await getIpUrlTxtAndCsv(noTLS, null, proxyIpTxt);
+
+					} else {
+						ipUrlTxtAndCsv = await getIpUrlTxtAndCsv(noTLS, proxyIpTxt, null);
+					}
+					const uniqueIpTxt = [...new Set([...ipUrlTxtAndCsv.txt, ...ipUrlTxtAndCsv.csv])];
+					proxyIP = uniqueIpTxt[Math.floor(Math.random() * uniqueIpTxt.length)];
+				} else {
+					proxyIPs = await addIpText(PROXYIP);
+					proxyIP = proxyIPs[Math.floor(Math.random() * proxyIPs.length)];
+				}
+			} else {
+				let proxyIpTxts = await addIpText(proxyIpTxt);
+				let ipUrlTxtAndCsv = await getIpUrlTxtAndCsv(noTLS, proxyIpTxts, null);
+				let updatedIps = ipUrlTxtAndCsv.txt.map(ip => `amclubs${download}.${ip}`);
+				const uniqueIpTxt = [...new Set([...updatedIps, ...proxyIPs])];
+				proxyIP = uniqueIpTxt[Math.floor(Math.random() * uniqueIpTxt.length)];
 			}
+			const [ip, port] = proxyIP.split(':');
+			proxyIP = ip;
+			proxyPort = port || proxyPort;
 
 			const url = new URL(request.url);
 			socks5 = SOCKS5 || url.searchParams.get('socks5') || socks5;
@@ -216,7 +198,7 @@ export default {
 					return new Response(await nginx(), {
 						headers: {
 							'Content-Type': 'text/html; charset=UTF-8',
-							'referer': 'https://www.google.com/search?q=am.809098.xyz',
+							'referer': 'https://www.google.com/search?q=AM科技',
 						},
 					});
 				}
@@ -230,7 +212,7 @@ export default {
 				case `/${userID}`: {
 					// Handle real UUID requests and get node info
 					await sendMessage(
-						`#获取订阅 ${fileName}`,
+						`#purlite ${fileName}`,
 						request.headers.get('CF-Connecting-IP'),
 						`UA: ${userAgent}\n域名: ${url.hostname}\n入口: ${url.pathname + url.search}`
 					);
@@ -431,6 +413,7 @@ async function parseSocks5FromUrl(socks5, url) {
 	return null;
 }
 
+
 /** ---------------------Get data------------------------------ */
 
 let subParams = ['sub', 'base64', 'b64', 'clash', 'singbox', 'sb'];
@@ -458,7 +441,7 @@ async function getVLESSConfig(userID, host, userAgent, _url) {
 
 	// Get node information
 	fakeHostName = getFakeHostName(host);
-	const ipUrlTxtAndCsv = await getIpUrlTxtAndCsv(noTLS);
+	const ipUrlTxtAndCsv = await getIpUrlTxtAndCsv(noTLS, ipUrlTxt, ipUrlCsv);
 
 	// console.log(`txt: ${ipUrlTxtAndCsv.txt} \n csv: ${ipUrlTxtAndCsv.csv}`);
 	let content = await getSubscribeNode(userAgent, _url, host, fakeHostName, fakeUserID, noTLS, ipUrlTxtAndCsv.txt, ipUrlTxtAndCsv.csv);
@@ -475,10 +458,10 @@ function getHtmlResponse(socks5Enable, userID, host, v2ray, clash) {
 		proxyIPRemark = `socks5: ${parsedSocks5.hostname}:${parsedSocks5.port}`;
 	}
 
-	let remark = `purnet ${subRemark} is, free${proxyIPRemark}`;
+	let remark = `purnet ${subRemark} purnet, purnet${proxyIPRemark}`;
 
 	if (!proxyIP && !socks5Enable) {
-		remark = `purnet ${subRemark} is, free, jetfreeeeeeeeeeeeeeee`;
+		remark = `purnet ${subRemark} purnet, purnet, purnet`;
 	}
 
 	return getConfigHtml(userID, host, remark, v2ray, clash);
@@ -493,21 +476,21 @@ function getFakeHostName(host) {
 	return `${fakeHostName}.xyz`;
 }
 
-async function getIpUrlTxtAndCsv(noTLS) {
+async function getIpUrlTxtAndCsv(noTLS, urlTxts, urlCsvs) {
 	if (noTLS === 'true') {
 		return {
-			txt: await getIpUrlTxt(ipUrlTxt),
-			csv: await getIpUrlCsv('FALSE')
+			txt: await getIpUrlTxt(urlTxts),
+			csv: await getIpUrlCsv(urlCsvs, 'FALSE')
 		};
 	}
 	return {
-		txt: await getIpUrlTxt(ipUrlTxt),
-		csv: await getIpUrlCsv('TRUE')
+		txt: await getIpUrlTxt(urlTxts),
+		csv: await getIpUrlCsv(urlCsvs, 'TRUE')
 	};
 }
 
-async function getIpUrlTxt(ipUrlTxts) {
-	if (!ipUrlTxts || ipUrlTxts.length === 0) {
+async function getIpUrlTxt(urlTxts) {
+	if (!urlTxts || urlTxts.length === 0) {
 		return [];
 	}
 
@@ -524,7 +507,7 @@ async function getIpUrlTxt(ipUrlTxts) {
 	try {
 		// Use Promise.allSettled to wait for all API requests to complete, regardless of success or failure
 		// Iterate over the api array and send a fetch request to each API URL
-		const responses = await Promise.allSettled(ipUrlTxts.map(apiUrl => fetch(apiUrl, {
+		const responses = await Promise.allSettled(urlTxts.map(apiUrl => fetch(apiUrl, {
 			method: 'GET',
 			headers: {
 				'Accept': 'text/html,application/xhtml+xml,application/xml;',
@@ -557,16 +540,16 @@ async function getIpUrlTxt(ipUrlTxts) {
 	return newIpTxt;
 }
 
-async function getIpUrlCsv(tls) {
+async function getIpUrlCsv(urlCsvs, tls) {
 	// Check if the CSV URLs are valid
-	if (!ipUrlCsv || ipUrlCsv.length === 0) {
+	if (!urlCsvs || urlCsvs.length === 0) {
 		return [];
 	}
 
 	const newAddressesCsv = [];
 
 	// Fetch and process all CSVs concurrently
-	const fetchCsvPromises = ipUrlCsv.map(async (csvUrl) => {
+	const fetchCsvPromises = urlCsvs.map(async (csvUrl) => {
 		try {
 			const response = await fetch(csvUrl);
 
@@ -650,7 +633,7 @@ function getConfigLink(uuid, host, address, port, remarks) {
 	let tls = ['tls', true];
 	if (host.includes('.workers.dev') || host.includes('pages.dev')) {
 		path = `/${host}${path}`;
-		remarks += ' purnet';
+		remarks += ' purlite';
 	}
 
 	const v2ray = getV2rayLink({ protocolType, host, uuid, address, port, remarks, encryption, path, fingerprint, tls });
@@ -721,8 +704,8 @@ function getConfigHtml(userID, host, remark, v2ray, clash) {
 	// HTML Head with CSS and FontAwesome library
 	const htmlHead = `
     <head>
-      <title>am-cf-tunnel(AM科技)</title>
-      <meta name='description' content='This is a project to generate free vmess nodes. For more information, please subscribe youtube(AM科技) https://youtube.com/@AM_CLUB and follow GitHub https://github.com/amclubs ' />
+      <title>purnet config</title>
+      <meta name='description' content='This is a project to generate free vmess nodes. For more information, please subscribe youtube() https://youtube.com/@purnet and follow GitHub https://github.com/davudsedft ' />
       <style>
         body {
           font-family: Arial, sans-serif;
@@ -768,9 +751,11 @@ function getConfigHtml(userID, host, remark, v2ray, clash) {
 	// Prepare header string with left alignment
 	const header = `
 		<p align="left" style="padding-left: 20px; margin-top: 20px;">
-		<a href="https://t.me/purnet" target="_blank">کانال تلگرام</a>
+		</br>
+		<a href="t.me/purnet" target="_blank">کانال پورنت</a>
 		</br></br>
 		</br></br>
+		<a href="https://youtube.com/@purnet" target="_blank">پورنت</a>
 		</p>
   `;
 
@@ -778,13 +763,19 @@ function getConfigHtml(userID, host, remark, v2ray, clash) {
 	const httpAddr = `https://${host}/${userID}`;
 	const output = `
 ################################################################
+ ${remark}
 ---------------------------------------------------------------
-لینک ساب
-${httpAddr}?base64
+پورنت: <button onclick='copyToClipboard("${httpAddr}?sub")'><i class="fa fa-clipboard"></i> subویلس  </button>
+${httpAddr}?sub
 
 
 ---------------------------------------------------------------
 ################################################################
+v2ray
+---------------------------------------------------------------
+${v2ray}
+---------------------------------------------------------------
+
   `;
 
 	// Final HTML
@@ -1060,7 +1051,7 @@ async function getCFSum(accountId, accountIndex, email, key, startDate, endDate)
 		const accounts = res?.data?.viewer?.accounts?.[accountIndex];
 
 		if (!accounts) {
-			throw new Error('找不到账户数据');
+			throw new Error('قثثخقق');
 		}
 
 		const getSumRequests = (data) => data?.reduce((total, item) => total + (item?.sum?.requests || 0), 0) || 0;
